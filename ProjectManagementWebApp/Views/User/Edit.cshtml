@@ -1,0 +1,72 @@
+﻿@model ProjectManagementWebApp.Models.User
+@{
+    ViewData["Title"] = "Edit";
+    ViewData["ViewAllUser"] = "active";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="@Url.Action("Index","Home")"><i class="fas fa-home"></i> Home</a>
+    </li>
+    <li class="breadcrumb-item active"><i class="fas fa-users-cog"></i> View All Users</li>
+    <li class="breadcrumb-item"><i class="fas fa-edit"></i> Edit</li>
+</ol>
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-7">
+        <form asp-action="Edit" class="form-horizontal">
+            <h4><i class="fas fa-edit" style="color: #1B5E20"></i> Edit User</h4><hr />
+
+            @Html.Raw(ViewData["Message"])
+
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="ProfileUrl" />
+            <input asp-for="Password" type="text" hidden="hidden" />
+
+            <div class="form-group">
+                <label asp-for="Name">Name</label>
+                <br />
+                <input asp-for="Name" type="text" class="form-control" placeholder="Enter Name" />
+
+                <span asp-validation-for="Name" style="color: red"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email">Email</label>
+                <br />
+                <input asp-for="Email" type="text" class="form-control" placeholder="Enter Email" readonly="readonly" />
+
+                <span asp-validation-for="Email" style="color: red"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Status">Status</label>
+                <br />
+                <input asp-for="Status" type="radio" value="Active" checked="checked" />Active
+                <input asp-for="Status" type="radio" value="Inactive" />Inactive
+
+                <span asp-validation-for="Status" style="color: red"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DesignationId">Designation</label>
+                <br />
+                <select asp-items="ViewBag.Designations" class="form-control" asp-for="DesignationId">
+                    <option value="">-- Select --</option>
+                </select>
+
+                <span asp-validation-for="DesignationId" style="color: red"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Edit" class="btn btn-default" style="width: 100%" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+

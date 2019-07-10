@@ -1,0 +1,62 @@
+﻿@model ProjectManagementWebApp.Models.ViewModels.AuthenticationViewModel;
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+
+<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+<style>
+
+
+</style>
+
+<div>
+    <div class="col-md-12" style="height: 10%; width: 100%"></div>
+    <div class="col-md-12" style="height: 60%; width: 100%">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4"  style="border: 1px solid #FAFAFA; border-radius: 10px; background-color: #F5F5F5">
+            <form asp-action="Login" class="form-horizontal" style="padding: 7px;">
+                <h3>Log in</h3><hr />
+
+                <img src="~/assets/LogImage/avater.jpg" style="height: 90px; width: 90px; border-radius: 100%; display: block; margin-left: auto; margin-right: auto" />
+                
+                <div style="padding: 4px">
+                    @Html.Raw(ViewData["Message"])
+                </div>
+                
+                <div class="form-group">
+                    <label asp-for="Email">Email</label>
+                    <br />
+                    <input type="email" class="form-control" asp-for="Email" placeholder="eg: admin@mailAddress.com" />
+
+                    <span asp-validation-for="Email" style="color: red"></span>
+
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Password">Password</label>
+                    <br />
+                    <input type="password" class="form-control" asp-for="Password" placeholder="Write your password" />
+
+                    <span asp-validation-for="Password" style="color: red"></span>
+
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" class="btn btn-default" style="width: 100%;" value="Login" />
+                </div>
+                <hr/>
+                <span>Copyright © Irfat Mahmood Turkey - @DateTime.Now.Year</span>
+            </form>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+        <div class="col-md-12" style="height: 30%; width: 100%;"></div>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+

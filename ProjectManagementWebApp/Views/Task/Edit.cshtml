@@ -1,0 +1,76 @@
+﻿@model ProjectManagementWebApp.Models.Task
+@{
+    ViewData["Title"] = "Edit";
+    ViewData["ViewAllProject"] = "active";
+}
+
+<link href="~/assets/bootstrap-dataPicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
+<link href="~/assets/bootstrap-dataPicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="@Url.Action("Index","Home")"><i class="fas fa-home"></i> Home</a>
+    </li>
+    <li class="breadcrumb-item"><i class="fas fa-list-alt"></i> View All Projects</li>
+    <li class="breadcrumb-item active"><i class="fas fa-edit"></i> Edit Task</li>
+</ol>
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-7">
+        <form asp-action="Edit" class="form-horizontal">
+            <h4><i class="fas fa-edit" style="color: #1B5E20"></i> Edit Task</h4><hr />
+
+            @Html.Raw(ViewData["Message"])
+
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="ByUserId" />
+            <input type="hidden" asp-for="ProjectId" />
+            <input type="hidden" asp-for="ToUserId" />
+            <input type="hidden" name="projectId" value="@ViewData["ProjectId"]" />
+
+            <div class="form-group">
+                <label asp-for="Description">Description</label><br />
+                <input type="text" class="form-control" asp-for="Description" />
+
+                <span asp-validation-for="Description" style="color: red;"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DueDate">Due Date</label><br />
+                <input type="text" class="form-control" asp-for="DueDate" />
+
+                <span asp-validation-for="DueDate" style="color: red;"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Priority">Priority</label><br />
+                <select asp-for="Priority" class="form-control">
+                    <option value="">--Select--</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+
+                <span asp-validation-for="Priority" style="color: red;"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" class="btn btn-default" style="width: 100%" value="Edit" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/assets/bootstrap-dataPicker/js/bootstrap-datepicker.min.js"></script>
+<script>
+    $('#DueDate').datepicker({
+        format: "mm/dd/yyyy",
+        todayBtn: "linked",
+        daysOfWeekHighlighted: "5",
+        autoclose: true
+    });
+</script>

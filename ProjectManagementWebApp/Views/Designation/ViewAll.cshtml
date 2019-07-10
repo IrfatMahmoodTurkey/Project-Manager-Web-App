@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewData["Title"] = "ViewAll";
+    ViewData["ViewAllDesignation"] = "active";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="@Url.Action("Index","Home")"><i class="fas fa-home"></i> Home</a>
+    </li>
+    <li class="breadcrumb-item active"><i class="fas fa-th-list"></i> View All Designation</li>
+</ol>
+
+<h4><i class="fas fa-th-list" style="color: #1B5E20"></i> View All Designation</h4><hr />
+
+<table class="table">
+    <thead style="background-color: #263238; color: white">
+        <tr>
+            <td>
+                Designation
+            </td>
+            <td>
+                Action
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Designation designation in ViewBag.Designations)
+        {
+            <tr>
+                <td>@designation.DesignationName</td>
+                <td><a title="Edit" href="@Url.Action("Edit","Designation", new {id=designation.Id})"><i class="fas fa-edit" style="color: #0D47A1"></i></a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+

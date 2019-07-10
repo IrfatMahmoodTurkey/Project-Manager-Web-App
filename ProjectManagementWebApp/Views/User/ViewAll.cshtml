@@ -1,0 +1,51 @@
+﻿@using ProjectManagementWebApp.Models.ViewModels
+
+@{
+    ViewData["Title"] = "ViewAll";
+    ViewData["ViewAllUser"] = "active";
+}
+
+<link href="~/assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="@Url.Action("Index","Home")"><i class="fas fa-home"></i> Home</a>
+    </li>
+    <li class="breadcrumb-item active"><i class="fas fa-users-cog"></i> View All Users</li>
+</ol>
+
+<h4><i class="fas fa-users-cog" style="color: #1B5E20"></i> View All Users</h4><hr />
+
+<table id="dataTable" style="width: 100%">
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Email</td>
+            <td>Status</td>
+            <td>Designation</td>
+            <td>Profile Picture</td>
+            <td>Action</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (UserViewModel viewModel in ViewBag.Users)
+        {
+            <tr>
+                <td>@viewModel.Name</td>
+                <td>@viewModel.Email</td>
+                <td>@viewModel.Status</td>
+                <td>@viewModel.DesignationName</td>
+                <td><img src="@viewModel.ProfilePictureUrl" style="height: 50px; width: 50px; border-radius: 100%" /></td>
+                <td><a href="@Url.Action("Edit","User", new {id=viewModel.Id})" title="Edit"><i class="fas fa-edit" style="color: #0D47A1"></i></a>  <a href="@Url.Action("Remove","User", new {id=viewModel.Id})" onclick="return confirm('Are you sure to Remove this User?');" title="Remove"><i class="fas fa-trash-alt" style="color: #b71c1c"></i></a>  <a href="@Url.Action("ResetPassword","User", new {id=viewModel.Id})" onclick="return confirm('Are you sure to Reset this User Password?');" title="Reset Password"><i class="fas fa-retweet" style="color: #2E7D32"></i></a> <a href="@Url.Action("UserAccess","User", new {userId = viewModel.Id})" title="User Access"><i class="fas fa-universal-access" style="color: #D84315"></i></a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script src="lib/jquery/dist/jquery.min.js"></script>
+<script src="~/assets/vendor/datatables/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+    });
+</script>

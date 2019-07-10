@@ -1,0 +1,79 @@
+﻿@model ProjectManagementWebApp.Models.User
+@{
+    ViewData["Title"] = "Save";
+    ViewData["AddUser"] = "active";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="@Url.Action("Index","Home")"><i class="fas fa-home"></i> Home</a>
+    </li>
+    <li class="breadcrumb-item active"><i class="fas fa-users"></i> Add New User</li>
+</ol>
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-7">
+        <form asp-action="Save" class="form-horizontal">
+            <h4><i class="fas fa-users" style="color: #1B5E20"></i> Add New User</h4><hr />
+
+            @Html.Raw(ViewData["Message"])
+
+            <div class="form-group">
+                <label asp-for="Name">Name</label>
+                <br />
+                <input asp-for="Name" type="text" class="form-control" placeholder="Enter Full Name" />
+
+                <span asp-validation-for="Name" style="color: red"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email">Email</label>
+                <br />
+                <input asp-for="Email" type="text" class="form-control" placeholder="Enter Email" oninput="setPassword();" />
+
+                <span asp-validation-for="Email" style="color: red"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password">Password</label>
+                <br />
+                <input asp-for="Password" type="text" class="form-control" placeholder="Enter Password" readonly="readonly" />
+
+                <span asp-validation-for="Password" style="color: red"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Status">Status</label>
+                <br />
+                <input asp-for="Status" type="radio" value="Active" checked="checked" />Active
+                <input asp-for="Status" type="radio" value="Inactive" />Inactive
+                <br />
+                <span asp-validation-for="Status" style="color: red"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DesignationId">Designation</label>
+                <br />
+                <select class="form-control" asp-items="ViewBag.Designations" asp-for="DesignationId">
+                    <option value="">-- Select --</option>
+                </select>
+
+                <span asp-validation-for="DesignationId" style="color: red"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" style="width: 100%" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function setPassword() {
+        document.getElementById('Password').value = document.getElementById('Email').value+"123";
+    }
+</script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

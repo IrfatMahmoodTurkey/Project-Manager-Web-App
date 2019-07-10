@@ -1,0 +1,47 @@
+﻿@model ProjectManagementWebApp.Models.ViewModels.UserAccessViewModel
+
+@{
+    ViewData["Title"] = "UserAccess";
+    ViewData["ViewAllUser"] = "active";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="@Url.Action("Index","Home")"><i class="fas fa-home"></i> Home</a>
+    </li>
+    <li class="breadcrumb-item active"><i class="fas fa-users-cog"></i> View All Users</li>
+    <li class="breadcrumb-item"><i class="fas fa-universal-access"></i> User Access</li>
+</ol>
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-7">
+        <form asp-action="UserAccess" class="form-horizontal">
+            <h4><i class="fas fa-universal-access" style="color: #1B5E20"></i> User Access</h4><hr />
+
+            @Html.Raw(ViewData["Message"])
+
+            <input type="hidden" asp-for="UserId" value="@ViewBag.UserId" />
+
+            <div class="form-group">
+                <label asp-for="PageId">Panels</label>
+                <br />
+                <select asp-for="PageId" class="form-control" multiple="multiple">
+                    <option value="1">Add, Edit, Remove, Download Project</option>
+                    <option value="2">Add, Edit, Remove Task</option>
+                    <option value="3">Assign, Unassign User from Project</option>
+                </select>
+                <br />
+                <span asp-validation-for="PageId" style="color: red"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-default" style="width: 100%"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

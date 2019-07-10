@@ -1,0 +1,101 @@
+﻿@using Microsoft.AspNetCore.Http
+@using ProjectManagementWebApp.Models.ViewModels
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "ViewComments";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="@Url.Action("Index","Home")"><i class="fas fa-home"></i> Home</a>
+    </li>
+    <li class="breadcrumb-item"><i class="fas fa-list-alt"></i> View All Projects</li>
+    <li class="breadcrumb-item"><i class="fas fa-info-circle"></i> Details of a Project</li>
+    <li class="breadcrumb-item active"><i class="fas fa-comments"></i> View All Comments</li>
+</ol>
+
+<h4><i class="fas fa-comments" style="color: #1B5E20"></i> View Comments</h4><hr />
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-7">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <input readonly="readonly" class="form-control" value="@ViewData["ProjectName"]" />
+            </div>
+
+            <div class="form-group">
+                <input readonly="readonly" class="form-control" value="@ViewData["TaskName"]" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-7">
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-comments"></i>
+                Comment Box
+            </div>
+            <div class="card-body pre-scrollable">
+                @{
+                    foreach (CommentViewModel viewModel in ViewBag.Comments)
+                    {
+                        int userId = Convert.ToInt32(HttpContextAccessor.HttpContext.Session.GetInt32("UserId"));
+
+                        if (userId == viewModel.UserId)
+                        {
+                            <div style="border-radius: 3px; border: 1px solid #ECEFF1; background-color: #ECEFF1; margin-bottom: 5px;">
+                                <div style="padding: 8px;">
+                                    <h5><i class="fas fa-user" style="margin-left: 5px;"></i> @viewModel.UserName</h5>
+                                    <hr />
+                                    <i class="fas fa-calendar-alt" style="margin-left: 5px;"></i> @viewModel.Date
+                                    <hr />
+                                    <p><i class="fas fa-comments" style="margin-left: 5px;"></i> @viewModel.CommentDescription </p>
+                                    <hr />
+                                    <a  href="@Url.Action("Edit","Comment", new {projectId = viewModel.ProjectId, taskId = viewModel.TaskId, id=viewModel.Id})" title="Edit Comment"><i class="fas fa-edit" style="color: #0D47A1"></i></a> - <a  href="@Url.Action("Remove","Comment", new {projectId = viewModel.ProjectId, taskId = viewModel.TaskId, id=viewModel.Id})" onclick="return confirm('Are you sure to Remove Comment?');" title="Remove Comment"><i class="fas fa-trash-alt" style="color: #b71c1c"></i></a>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div style="border-radius: 3px; border: 1px solid #ECEFF1; background-color: #ECEFF1; margin-bottom: 5px;">
+                                <div style="padding: 8px;">
+                                    <h5><i class="fas fa-user" style="margin-left: 5px;"></i> @viewModel.UserName</h5>
+                                    <hr />
+                                    <i class="fas fa-calendar-alt" style="margin-left: 5px;"></i> @viewModel.Date
+                                    <hr />
+                                    <p><i class="fas fa-comments" style="margin-left: 5px;"></i> @viewModel.CommentDescription </p>
+                                </div>
+                            </div>
+                        }
+
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+@*<table>
+    <thead>
+        <tr>
+            <td>Comment</td>
+            <td>By</td>
+            <td>Date Time</td>
+            <td>Action</td>
+        </tr>
+    </thead>
+    <tbody>
+       
+    </tbody>
+</table>*@

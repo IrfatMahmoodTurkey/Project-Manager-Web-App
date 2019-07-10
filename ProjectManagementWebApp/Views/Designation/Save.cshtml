@@ -1,0 +1,40 @@
+﻿@model ProjectManagementWebApp.Models.Designation
+@{
+    ViewData["Title"] = "Add Designation";
+    ViewData["AddDesignation"] = "active";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="@Url.Action("Index","Home")"><i class="fas fa-home"></i> Home</a>
+    </li>
+    <li class="breadcrumb-item active"><i class="fas fa-briefcase"></i> Add New Designation</li>
+</ol>
+
+<div class="row">
+    <div class="col-md-2"></div>
+        <div class="col-md-7">
+            <form asp-action="Save" class="form-horizontal">
+                <h4><i class="fas fa-briefcase" style="color: #1B5E20"></i> Add Designation</h4><hr />
+                
+                @Html.Raw(ViewData["Message"])
+
+                <div class="form-group">
+                    <label asp-for="DesignationName" style="text-align: left">Designation</label>
+                    <br />
+                    <input type="text" asp-for="DesignationName" class="form-control" placeholder="Enter Designation" />
+
+                    <span asp-validation-for="DesignationName" style="color: red"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" class="btn btn-default" style="width: 100%" value="Save" />
+                    <br />
+                </div>
+            </form>
+        </div>
+    </div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

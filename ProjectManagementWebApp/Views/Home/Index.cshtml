@@ -1,0 +1,270 @@
+﻿@using ProjectManagementWebApp.Models.ViewModels
+@{
+    ViewData["Title"] = "Home Page";
+    ViewData["Home"] = "active";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="@Url.Action("Index","Home")"><i class="fas fa-home"></i> Home</a>
+    </li>
+    <li class="breadcrumb-item active"><i class="fas fa-fw fa-tachometer-alt"></i> Dashboard</li>
+</ol>
+
+<!-- Icon Cards-->
+<div class="row">
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white o-hidden h-100" style="background-color: #880E4F;">
+            <div class="card-body">
+                <div class="card-body-icon">
+                    <i class="fas fa-folder"></i>
+                </div>
+                <div class="mr-5"><strong style="font-size: 30px;">@ViewData["NoOfProjects"]</strong> Projects!</div>
+            </div>
+            <a class="card-footer text-white clearfix small z-1" href="#">
+                <span class="float-left">View Details</span>
+                <span class="float-right">
+                    <i class="fas fa-angle-right"></i>
+                </span>
+            </a>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white o-hidden h-100" style="background-color: #388E3C;">
+            <div class="card-body">
+                <div class="card-body-icon">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <div class="mr-5"><strong style="font-size: 30px;">@ViewData["NoOfTasks"]</strong> Tasks!</div>
+            </div>
+            <a class="card-footer text-white clearfix small z-1" href="#">
+                <span class="float-left">View Details</span>
+                <span class="float-right">
+                    <i class="fas fa-angle-right"></i>
+                </span>
+            </a>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white o-hidden h-100" style="background-color: #1A237E">
+            <div class="card-body">
+                <div class="card-body-icon">
+                    <i class="fas fa-plus-square"></i>
+                </div>
+                <div class="mr-5"><strong style="font-size: 30px">@ViewData["NoOfNewTasks"]</strong> New Tasks!</div>
+            </div>
+            <a class="card-footer text-white clearfix small z-1" href="#">
+                <span class="float-left">View Details</span>
+                <span class="float-right">
+                    <i class="fas fa-angle-right"></i>
+                </span>
+            </a>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white bg-danger o-hidden h-100">
+            <div class="card-body">
+                <div class="card-body-icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <div class="mr-5"><strong style="font-size: 30px">@ViewData["NoOfNewComments"]</strong> New Comments!</div>
+            </div>
+            <a class="card-footer text-white clearfix small z-1" href="#">
+                <span class="float-left">View Details</span>
+                <span class="float-right">
+                    <i class="fas fa-angle-right"></i>
+                </span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Area Chart Example-->
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-chart-area"></i>
+                This Year Project
+            </div>
+            <div class="card-body">
+                <canvas id="myAreaChart" style="height: 100%; width: 100%"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-chart-pie"></i>
+                Project of This and Previous Year
+            </div>
+            <div class="card-body">
+                <canvas id="myPieChart" style="height: 100%; width: 100%"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-tasks"></i>
+                New Tasks
+            </div>
+            <div class="card-body">
+                <table class="table" style="text-align: center">
+                    <thead style="background-color: #004D40; color: white;">
+                        <tr>
+                            <td>Assigned By</td>
+                            <td>Priority</td>
+                            <td>Action</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            if (ViewBag.NewTasks != null)
+                            {
+                                foreach (NewTaskViewModel taskViewModel in ViewBag.NewTasks)
+                                {
+                                    <tr>
+                                        <td>@taskViewModel.By</td>
+                                        <td>@taskViewModel.Priority</td>
+                                        <td><a href="@Url.Action("Details","Project", new {id=taskViewModel.ProjectId})" style="border-radius: 2px; border: 1px solid #26C6DA; padding: 5px;"><i class="fas fa-info"></i> Details</a></td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td>N/A</td>
+                                    <td>N/A</td>
+                                    <td>N/A</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-comments"></i>
+                New Comments
+            </div>
+            <div class="card-body">
+                <table class="table" style="text-align: center">
+                    <thead style="background-color: #004D40; color: white;">
+                        <tr>
+                            <td>Comment By</td>
+                            <td>Project</td>
+                            <td>Action</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            if (ViewBag.NewComments != null)
+                            {
+                                foreach (NewCommentViewModel commentViewModel in ViewBag.NewComments)
+                                {
+                                    <tr>
+                                        <td>@commentViewModel.ByUserName</td>
+                                        <td>@commentViewModel.ProjectName</td>
+                                        <td><a href="@Url.Action("ViewComments","Comment", new {projectId = commentViewModel.ProjectId, taskId = commentViewModel.TaskId})" style="border-radius: 2px; border: 1px solid #26C6DA; padding: 5px;"><i class="fas fa-info"></i> Details</a></td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td>N/A</td>
+                                    <td>N/A</td>
+                                    <td>N/A</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/assets/vendor/chart.js/Chart.min.js"></script>
+
+<script>
+    Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+    Chart.defaults.global.defaultFontColor = '#292b2c';
+
+    // Area Chart
+    var ctx = document.getElementById("myAreaChart");
+    var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"],
+            datasets: [{
+                label: "Total Projects",
+                lineTension: 0.3,
+                backgroundColor: "#A5D6A7",
+                borderColor: "#00796B",
+                pointRadius: 5,
+                pointBackgroundColor: "#004D40",
+                pointBorderColor: "#212121",
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: "#26A69A",
+                pointHitRadius: 50,
+                pointBorderWidth: 2,
+                data: [@ViewData["Jan"],@ViewData["Feb"],@ViewData["Mar"],@ViewData["Apr"],@ViewData["May"],@ViewData["Jun"],@ViewData["Jul"],@ViewData["Aug"],@ViewData["Sept"],@ViewData["Oct"],@ViewData["Nov"],@ViewData["Dec"]],
+            }],
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    time: {
+                        unit: 'date'
+                    },
+                    gridLines: {
+                        display: false
+                    },
+                    ticks: {
+                        maxTicksLimit: 7
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                        max: 5,
+                        maxTicksLimit: 5
+                    },
+                    gridLines: {
+                        color: "#ECEFF1",
+                    }
+                }],
+            },
+            legend: {
+                display: false
+            }
+        }
+    });
+
+
+    // pie chart
+    var ctx = document.getElementById("myPieChart");
+    var myPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: [@DateTime.Now.Year,@DateTime.Now.Year-1,@DateTime.Now.Year-2],
+            datasets: [{
+                data: [@ViewData["ThisYear"],@ViewData["LastYear"],@ViewData["PrevLastYear"]],
+                backgroundColor: ['#00695C', '#D84315','#1565C0'],
+            }],
+        },
+    });
+</script>

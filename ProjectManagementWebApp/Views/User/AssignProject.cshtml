@@ -1,0 +1,73 @@
+﻿@using ProjectManagementWebApp.Models.ViewModels
+@model ProjectManagementWebApp.Models.AssignProject
+
+@{
+    ViewData["Title"] = "AssignProject";
+    ViewData["AssignProject"] = "active";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="@Url.Action("Index","Home")"><i class="fas fa-home"></i> Home</a>
+    </li>
+    <li class="breadcrumb-item active"><i class="fas fa-user-edit"></i> Assign Project to User and View</li>
+</ol>
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-7">
+        <form asp-action="AssignProject" class="form-horizontal">
+            <h4><i class="fas fa-user-edit" style="color: #1B5E20"></i> Assign Project</h4><hr />
+
+            @Html.Raw(ViewData["Message"])
+
+            <div class="form-group">
+                <label asp-for="UserId">User</label><br />
+                <select asp-for="UserId" class="form-control" asp-items="@ViewBag.Users">
+                    <option value="">--Select--</option>
+                </select>
+                <span asp-validation-for="UserId" style="color: red"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ProjectId">Project</label><br />
+                <select asp-for="ProjectId" class="form-control" asp-items="@ViewBag.Projects">
+                    <option value="">--Select--</option>
+                </select>
+                <span asp-validation-for="ProjectId" style="color:red"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Assign" class="btn btn-default" style="width: 100%" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+<h4><i class="fas fa-user-edit" style="color: #1B5E20"></i> View Assigned Project to User</h4><hr />
+
+<table class="table">
+    <thead style="background-color: #263238; color: white">
+        <tr>
+            <td>Project Name</td>
+            <td>User Name</td>
+            <td>Designation</td>
+            <td>Action</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (AssignedUserViewModel viewModel in ViewBag.AssignedUsers)
+        {
+            <tr>
+                <td>@viewModel.ProjectName</td>
+                <td>@viewModel.UserName</td>
+                <td>@viewModel.UserDesignation</td>
+                <td><a href="@Url.Action("UnassignProject","User", new {id=viewModel.Id})" onclick="return confirm('Are you sure to Unassign this Project?');" title="Unassign"><i class="fas fa-times" style="color: #D84315"></i></a></td>
+            </tr>
+        }
+    </tbody>
+</table>

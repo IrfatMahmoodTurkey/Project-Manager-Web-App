@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewData["Title"] = "ProfilePicture";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="@Url.Action("Index","Home")"><i class="fas fa-home"></i> Home</a>
+    </li>
+    <li class="breadcrumb-item active"><i class="fas fa-user-circle"></i> Profile Picture</li>
+</ol>
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-7">
+        <form asp-action="ProfilePicture" class="form-horizontal" id="attachment" , enctype="multipart/form-data" , encoding="multipart/form-data">
+            <h4><i class="fas fa-user-circle" style="color: #1B5E20"></i> Upload New Profile Picture</h4><hr />
+
+            <img src="@ViewBag.PictureLink" height="180px" width="180px" alt="Profile Picture" style="display: block;border-radius:100%; margin-left: auto; margin-right: auto;" />
+            
+            @Html.Raw(ViewData["Message"])
+
+            <div class="form-group">
+                <input type="file" class="btn btn-default" style="width: 100%" name="profilePicture" accept="image/*" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Upload" class="btn btn-default" style="width: 100%" />
+            </div>
+        </form>
+    </div>
+</div>

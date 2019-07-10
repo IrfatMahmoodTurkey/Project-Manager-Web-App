@@ -1,0 +1,123 @@
+﻿@model ProjectManagementWebApp.Models.Project
+@{
+    ViewData["Title"] = "Add";
+    ViewData["AddProject"] = "active";
+}
+
+<link href="~/assets/bootstrap-dataPicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
+<link href="~/assets/bootstrap-dataPicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="@Url.Action("Index","Home")"><i class="fas fa-home"></i> Home</a>
+    </li>
+    <li class="breadcrumb-item active"><i class="fas fa-folder-open"></i> Add New Project</li>
+</ol>
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-7">
+        <form asp-action="Add" class="form-horizontal" id="attachment" , enctype="multipart/form-data" encoding="multipart/form-data">
+            <h4><i class="fas fa-folder-open" style="color: #1B5E20"></i> Add New Project</h4><hr />
+
+            @Html.Raw(ViewData["Message"])
+
+            <div class="form-group">
+                <label asp-for="Name">Name</label>
+                <br />
+                <input type="text" class="form-control" asp-for="Name" placeholder="Enter Name" />
+
+                <span asp-validation-for="Name" style="color: red"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CodeName">Code Name</label>
+                <br />
+                <input type="text" class="form-control" asp-for="CodeName" placeholder="Enter Code Name" />
+
+                <span asp-validation-for="CodeName" style="color: red"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description">Description</label>
+                <br />
+                <input type="text" class="form-control" asp-for="Description" placeholder="Enter Description" />
+
+                <span asp-validation-for="Description" style="color: red"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="StartDate">Start Date</label>
+                <br />
+                <input type="text" class="form-control" asp-for="StartDate" placeholder="Enter Start Date" />
+
+                <span asp-validation-for="StartDate" style="color: red"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="EndDate">End Date</label>
+                <br />
+                <input type="text" class="form-control" asp-for="EndDate" placeholder="Enter End Date" onchange="getDue()" />
+
+                <span asp-validation-for="EndDate" style="color: red"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Duration</label>
+                <br />
+                <input type="text" class="form-control" id="duration" readonly="readonly" />
+            </div>
+
+            <div class="form-group">
+                <label>Upload Files</label>
+                <br />
+                <input type="file" name="files" multiple="multiple" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Status">Status</label>
+                <br />
+                <input type="radio" asp-for="Status" value="Started" checked="checked" />Started
+                <input type="radio" asp-for="Status" value="Not Started" />Not Started
+                <input type="radio" asp-for="Status" value="Completed" />Completed
+                <input type="radio" asp-for="Status" value="Cancelled" />Cancelled
+
+                <span asp-validation-for="Status" style="color: red"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" class="btn btn-default" value="Add" style="width: 100%" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/assets/bootstrap-dataPicker/js/bootstrap-datepicker.min.js"></script>
+<script>
+    $('#StartDate').datepicker({
+        format: "mm/dd/yyyy",
+        todayBtn: "linked",
+        daysOfWeekHighlighted: "5",
+        autoclose: true
+    });
+
+    $('#EndDate').datepicker({
+        format: "mm/dd/yyyy",
+        todayBtn: "linked",
+        daysOfWeekHighlighted: "5",
+        autoclose: true
+    });
+</script>
+<script>
+    function getDue() {
+        const date1 = new Date(document.getElementById('StartDate').value);
+        const date2 = new Date(document.getElementById('EndDate').value);
+        const diffTime = Math.abs(date2.getTime() - date1.getTime());
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        document.getElementById('duration').value = diffDays;
+    }
+</script>

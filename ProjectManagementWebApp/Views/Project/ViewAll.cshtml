@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewData["Title"] = "ViewAll";
+    ViewData["ViewAllProject"] = "active";
+}
+
+<link href="~/assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="@Url.Action("Index","Home")"><i class="fas fa-home"></i> Home</a>
+    </li>
+    <li class="breadcrumb-item active"><i class="fas fa-list-alt"></i> View All Projects</li>
+</ol>
+
+<h4><i class="fas fa-list-alt" style="color: #1B5E20"></i> View All Project</h4><hr />
+
+<table id="dataTable" style="width: 100%">
+    <thead  style="background-color: #263238; color: white">
+        <tr>
+            <td>Name</td>
+            <td>Code Name</td>
+            <td>Start Date</td>
+            <td>End Date</td>
+            <td>Action</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Project project in ViewBag.Projects)
+        {
+            <tr>
+                <td>@project.Name</td>
+                <td>@project.CodeName</td>
+                <td>@project.StartDate</td>
+                <td>@project.EndDate</td>
+                <td><a href="@Url.Action("Edit","Project", new {id=project.Id})" title="Edit"><i class="fas fa-edit" style="color: #0D47A1"></i></a>  <a href="@Url.Action("Details","Project", new {id=project.Id})" title="Details"><i class="fas fa-info-circle" style="color: #2E7D32"></i></a>  <a href="@Url.Action("Remove","Project", new {id=project.Id})" onclick="return confirm('Are you sure to Remove this Project?');" title="Remove"><i class="fas fa-trash-alt" style="color: #b71c1c"></i></a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script src="~/assets/vendor/datatables/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+    });
+    
+</script>

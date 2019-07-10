@@ -1,0 +1,139 @@
+﻿@using System.Net.Http
+@using Microsoft.AspNetCore.Http
+@using ProjectManagementWebApp.Models.ViewModels
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@model ProjectManagementWebApp.Models.Project
+@{
+    ViewData["Title"] = "Details";
+    ViewData["ViewAllProject"] = "active";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="@Url.Action("Index","Home")"><i class="fas fa-home"></i> Home</a>
+    </li>
+    <li class="breadcrumb-item"><i class="fas fa-list-alt"></i> View All Projects</li>
+    <li class="breadcrumb-item active"><i class="fas fa-info-circle"></i> Details of a Project</li>
+</ol>
+
+<h4><i class="fas fa-info-circle" style="color: #1B5E20"></i> Project Info</h4><hr />
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-7">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label>Project Name</label>
+                <br />
+                <input asp-for="Name" class="form-control" readonly="readonly" />
+            </div>
+
+            <div class="form-group">
+                <label>Code Name</label>
+                <br />
+                <input asp-for="CodeName" class="form-control" readonly="readonly" />
+            </div>
+
+            <div class="form-group">
+                <label>Description</label>
+                <br />
+                <input asp-for="Description" class="form-control" readonly="readonly" />
+            </div>
+
+            <div class="form-group">
+                <label>Start Date</label>
+                <br />
+                <input asp-for="StartDate" class="form-control" readonly="readonly" />
+            </div>
+
+            <div class="form-group">
+                <label>End Date</label>
+                <br />
+                <input asp-for="EndDate" class="form-control" readonly="readonly" />
+            </div>
+
+            <div class="form-group">
+                <label>Status</label>
+                <br />
+                <input asp-for="Status" class="form-control" readonly="readonly" />
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<hr />
+
+<h4><i class="fas fa-file" style="color: #1B5E20"></i> Project Files</h4><hr />
+
+<table class="table">
+    <thead style="background-color: #263238; color: white">
+        <tr>
+            <td>File Name</td>
+            <td>Download</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (File file in ViewBag.Files)
+        {
+            <tr>
+                <td>@file.FileName</td>
+                <td><a href="@Url.Action("Download","Project", new {id = file.Id})" title="Download"><i class="fas fa-download" style="color: #4E342E"></i></a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<hr />
+<h4><i class="fas fa-tasks" style="color: #1B5E20"></i> Tasks of this Project</h4><hr />
+<i class="fas fa-sort-numeric-up-alt"></i> Number of Tasks of this Project: <strong>@ViewBag.TaskCount</strong>
+
+<table class="table">
+    <thead style="background-color: #263238; color: white">
+        <tr>
+            <td>Description</td>
+            <td>Assigned To</td>
+            <td>Assigned By</td>
+            <td>Due Date</td>
+            <td>Priority</td>
+            <td>Action</td>
+            <td>View Comments</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (TaskViewModel viewModels in ViewBag.Tasks)
+        {
+            int userId = Convert.ToInt32(HttpContextAccessor.HttpContext.Session.GetInt32("UserId"));
+
+            if (userId == viewModels.ByUserId)
+            {
+                <tr>
+                    <td>@viewModels.Description</td>
+                    <td>@viewModels.ToUser</td>
+                    <td>@viewModels.ByUser</td>
+                    <td>@viewModels.DueDate</td>
+                    <td>@viewModels.Priority</td>
+                    <td><a href="@Url.Action("Edit","Task", new {id = viewModels.Id, projectId = viewModels.ProjectId})" title="Edit"><i class="fas fa-edit" style="color: #0D47A1"></i></a> <a href="@Url.Action("Remove","Task", new {id=viewModels.Id, projectId = viewModels.ProjectId})" onclick="return confirm('Are you sure to Remove this Task?');" title="Remove"><i class="fas fa-trash-alt" style="color: #b71c1c"></i></a></td>
+                    <td><a href="@Url.Action("ViewComments","Comment", new {projectId = viewModels.ProjectId, taskId = viewModels.Id})" title="View Comments"><i class="fas fa-comment" style="color: #6A1B9A"></i></a></td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td>@viewModels.Description</td>
+                    <td>@viewModels.ToUser</td>
+                    <td>@viewModels.ByUser</td>
+                    <td>@viewModels.DueDate</td>
+                    <td>@viewModels.Priority</td>
+                    <td>No Action can Apply</td>
+                    <td><a href="@Url.Action("ViewComments","Comment", new {projectId = viewModels.ProjectId, taskId = viewModels.Id})" title="View Comments"><i class="fas fa-comment" style="color: #6A1B9A"></i></a></td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<br />
+<hr />
+
+<h4><i class="fas fa-comment" style="color: #1B5E20"></i> Add New Comment</h4><hr/> 
+<a href="@Url.Action("Add","Comment", new {projectId = ViewData["ProjectId"]})" style="border:1px solid #2196F3; border-radius: 5px; padding: 10px;"><i class="fas fa-comment"></i> Add Comment</a>
+<hr />
